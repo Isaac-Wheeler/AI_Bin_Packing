@@ -41,8 +41,11 @@ public class App {
     private static void insert(ArrayList<Integer> wieghts, int capacity, Connection conn) throws SQLException{     
         String SQL = "INSERT INTO problem (problem, capacity) VALUES (?, ?)";
         PreparedStatement pstmn = conn.prepareStatement(SQL);     
-        Array array = conn.createArrayOf("integer", wieghts.toArray());
-        pstmn.setArray(1, array);
+        StringBuilder arrayJson = new StringBuilder();
+        for(int i: wieghts){
+            arrayJson.append(i + ",");
+        }
+        pstmn.setString(1, arrayJson.toString());
         pstmn.setInt(2, capacity);
         pstmn.executeQuery();
     }
