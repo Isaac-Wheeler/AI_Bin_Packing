@@ -24,7 +24,7 @@ public class App {
             ArrayList<Integer> wieghts = new ArrayList<Integer>();
 
             for (int j = 0; j < numWieghts; j++) {
-                wieghts.add(randomNum(1, MAX_CAP));
+                wieghts.add(randomNum(1, cap));
             }
                 try{
                     insert(wieghts, cap, conn);

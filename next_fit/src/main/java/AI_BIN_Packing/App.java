@@ -81,12 +81,11 @@ public static void main(String[] args) {
             try {
                 probSol dat = findProblem(conn);
                 nextFitTime(dat);
-                System.out.print("Number of bins required in Next Fit :");
-                System.out.println(dat.numBins + " Time required to solve NanoSeconds :" + dat.duration);
+                //System.out.print("Number of bins required in Next Fit :");
+                //System.out.println(dat.numBins + " Time required to solve NanoSeconds :" + dat.duration);
                 updateProblem(conn, dat);
             } catch (SQLException e) {
-                e.printStackTrace();
-                break;
+                //e.printStackTrace();
             }
         }
     }catch (SQLException e) {
