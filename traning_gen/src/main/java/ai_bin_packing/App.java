@@ -86,7 +86,7 @@ public class App
 
         csv = new StringBuilder();
 
-        csv.append("Number of Bins, Weight, capacity \n");
+        csv.append("capacity,Weight1,Weight2,Weight3,Weight4,Weight5,Weight6,Weight7,Weight8,Weight9,Weight10,numbin\n");
 
         try {
             Connection conn = sqlCon();

@@ -212,23 +212,22 @@ public class probSol{
 
     public String getWeigthToString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("[ ");
-        for (int i = 0; i < n-2; i++) {
+        for (int i = 0; i < n-1; i++) {
             sb.append(weigth[i]);
-            sb.append(", ");
+            sb.append(",");
         }
-        sb.append(weigth[n-1]);
-        sb.append(" ]");
-
+        for (int i = n-1; i < 10 ; i++) {
+            sb.append("0,");
+        }
         return sb.toString();
 
     }
 
     @Override
     public String toString() {
-        return getNumBins()         + ", " +
-               getWeigthToString()  + ", " +
-               getC()               + "\n";
+        return getC()       + "," +
+               getWeigthToString() 
+                + getNumBins() + "\n";
     }
 
 

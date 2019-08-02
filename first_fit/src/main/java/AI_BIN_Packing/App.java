@@ -11,27 +11,27 @@ public class App {
     // Returns number of bins required
     // using first fit online algorithm
     static int firstfit(int weight[], int n, int c) {
-        // Initialize result (Count of bins) 
+        // Initialize result (Count of bins)
         int res = 0;
 
-        // Create an array to store remaining space in bins 
-        // there can be at most n bins 
+        // Create an array to store remaining space in bins
+        // there can be at most n bins
         int[] bin_rem = new int[n];
 
-        // Place items one by one 
-        for (int i = 0; i < n; i++){
-            // Find the first bin that can accommodate 
-            // weight[i] 
+        // Place items one by one
+        for (int i = 0; i < n; i++) {
+            // Find the first bin that can accommodate
+            // weight[i]
             int j;
-            for (j = 0; j < res; j++){
-                if (bin_rem[j] >= weight[i]){
+            for (j = 0; j < res; j++) {
+                if (bin_rem[j] >= weight[i]) {
                     bin_rem[j] = bin_rem[j] - weight[i];
                     break;
                 }
             }
 
-            // If no bin could accommodate weight[i] 
-            if (j == res){
+            // If no bin could accommodate weight[i]
+            if (j == res) {
                 bin_rem[res] = c - weight[i];
                 res++;
             }
@@ -41,7 +41,7 @@ public class App {
     }
 
     // Count Time to solve problem
-    public static probSol firstfitTime(probSol dat) {
+    public static probSol time(probSol dat) {
         long startTime = System.nanoTime();
         dat.setNumBins(firstfit(dat.getWeight(), dat.getN(), dat.getC()));
         long stopTime = System.nanoTime();
@@ -49,70 +49,9 @@ public class App {
         return dat;
     }
 
-    private static final String SQL_SELECT = "SELECT problem, capacity, id FROM public.problem WHERE first_fit IS NULL";
-
-    private static probSol findProblem(Connection conn) throws SQLException {
-        PreparedStatement preparedStatement = conn.prepareStatement(SQL_SELECT);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        resultSet.next();
-        int weight[] = convert(resultSet.getString("problem"));
-        probSol dat = new probSol(weight, resultSet.getInt("capacity"), resultSet.getInt("id"));
-        return dat;
-    }
-
-
-    private static final String SQL_UPDATE = "UPDATE public.problem SET first_fit=?, first_fit_time=? WHERE id=?;";
-
-    private static void updateProblem(Connection conn, probSol ps) throws SQLException{
-        PreparedStatement preparedStatement = conn.prepareStatement(SQL_UPDATE);
-        preparedStatement.setInt(1, ps.getNumBins());
-        preparedStatement.setLong(2, ps.getDuration());
-        preparedStatement.setInt(3, ps.getId());
-        preparedStatement.executeUpdate();
-    }
-
-
-
-    private static Connection sqlCon() throws SQLException {
-        Connection conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/AI_Bin_Problem", "postgres",
-                "mage1996");
-        if (conn != null) {
-            System.out.println("Connected to the database!");
-        } else {
-            System.out.println("Failed to make connection!");
-        }
-        return conn;
-    }
-
     // Driver program
-public static void main(String[] args) {
-    try{
-    Connection conn;
-    conn = sqlCon();
-        while(true){
-            try {
-                probSol dat = findProblem(conn);
-                firstfitTime(dat);
-                //System.out.print("Number of bins required in first Fit :");
-                //System.out.println(dat.numBins + " Time required to solve NanoSeconds :" + dat.duration);
-                updateProblem(conn, dat);
-            } catch (SQLException e) {
-               // e.printStackTrace();
-                //break;
-            }
-        }
-    }catch (SQLException e) {
-        e.printStackTrace();
+    public static void main(String[] args) {
+        util.findProblem();
     }
-} 
 
-private static int[] convert(String strArray) throws SQLException{
-    String array[] = strArray.split(",");
-    int w[] = new int[array.length];
-    for (int i = 0; i < array.length; i++) {
-        w[i] = Integer.parseInt(array[i]);
-    }
-    return w;
 }
-
-} 
